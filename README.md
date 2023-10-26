@@ -1,6 +1,9 @@
 # Collective Behavior Project: Feeding a School of Fish
 
-Mélinda Fabien, Sarah Gay, Ana Gelez, Alina Sereda
+[Mélinda Fabien](https://github.com/Melshea01),
+[Sarah Gay](https://github.com/starotis),
+[Ana Gelez](https://github.com/elegaanz),
+[Alina Sereda](https://github.com/AAAlina)
 
 Problem: how does different feeding techniques impacts the population of a school of fish in a tank, and which one is the best for aquaculture?
 
