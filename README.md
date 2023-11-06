@@ -1,4 +1,4 @@
-# Collective Behavior Project: Feeding a School of Fish
+# Collective Behavior Project: Simulating Schooling Fish Feeding Behavior
 
 ## Authors
 [Mélinda Fabien](https://github.com/Melshea01)
