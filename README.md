@@ -1,9 +1,12 @@
 # Collective Behavior Project: Feeding a School of Fish
 
-## Author
-[Mélinda Fabien](https://github.com/Melshea01),
-[Sarah Gay](https://github.com/starotis),
-[Ana Gelez](https://github.com/elegaanz),
+## Authors
+[Mélinda Fabien](https://github.com/Melshea01)
+
+[Sarah Gay](https://github.com/starotis)
+
+[Ana Gelez](https://github.com/elegaanz)
+
 [Alina Sereda](https://github.com/AAAlina)
 
 ## Introduction 
