@@ -42,7 +42,15 @@ func _process(delta):
 		# Equations (1) in the article
 		acceleration = swimming_force_vector / body_mass
 		speed += acceleration * delta
-		position += speed * delta
+		var new_position = position + speed * delta
+		if inside_of_tank(new_position):
+			position = new_position
+		else:
+			# This condition is rarely met, but it still exists
+			# as a security measure to make sure no fish escapes
+			# from the tank
+			var center_of_tank = Vector3(0, position.y, 0)
+			position += (center_of_tank - position).normalized() * delta * delta
 
 # The following variables are updated regularly in _physics_process
 var closest_fish = null
@@ -63,11 +71,15 @@ func compute_swimming_force():
 	
 	var alignment = w[2] * (mean_velocity - speed).normalized()
 	
+	var tank_top = Vector3(position.x, TANK_HEIGHT, position.z)
+	var tank_floor = Vector3(position.x, 0, position.z)
 	var boundary_avoidance = Vector3.ZERO
-	var distance_to_boundary = (position - closest_boundary).length()
-	if distance_to_boundary <  field_of_view():
-		boundary_avoidance = w[3] * (position - closest_boundary).normalized()
-	
+	var boundaries = [closest_boundary, tank_top, tank_floor]
+	for boundary in boundaries:
+		var distance_to_boundary = (position - boundary).length()
+		if distance_to_boundary < field_of_view():
+			boundary_avoidance += w[3] * (position - boundary).normalized()
+
 	var food_attraction = Vector3.ZERO
 	if closest_food != null:
 		food_attraction = w[4] * (closest_food.position - position).normalized()
@@ -84,21 +96,14 @@ func compute_swimming_force():
 		random_movement
 	)
 
+const TANK_RADIUS = 2.0
+const TANK_HEIGHT = 1.0
+
 func find_closest_boundary():
-	const TANK_RADIUS = 2.0
-	const TANK_HEIGHT = 1.0
 	var tank_center = Vector3(0, position.y, 0)
-	var vector_to_center = tank_center - position
+	var vector_to_center = position - tank_center
 	var prolongation_to_boundary = vector_to_center.normalized() * TANK_RADIUS
-	var distance_to_border = (prolongation_to_boundary - position).length()
-	var distance_to_top = abs(TANK_HEIGHT - position.y)
-	var distance_to_bottom = position.y
-	if distance_to_border < distance_to_top && distance_to_border < distance_to_bottom:
-		return prolongation_to_boundary
-	elif distance_to_top < distance_to_bottom:
-		return Vector3(position.x, TANK_HEIGHT, position.z)
-	else:
-		return Vector3(position.x, 0, position.z)
+	return tank_center + prolongation_to_boundary
 
 func start_feeding():
 	current_phase = PHASE.FEEDING
@@ -146,3 +151,9 @@ func _physics_process(_delta):
 # fish
 func field_of_view():
 	return 2 * total_length
+
+func inside_of_tank(point):
+	var radius = Vector2(point.x, point.z)
+	return (radius.length() < TANK_RADIUS * 0.95 &&
+		0.1 < point.y &&
+		point.y < TANK_HEIGHT * 0.9)
