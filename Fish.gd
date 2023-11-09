@@ -18,10 +18,11 @@ enum PHASE {
 }
 
 var current_phase = PHASE.FEEDING
+var mesh: MeshInstance3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	mesh = get_node("MeshInstance3D")
 
 var w = [0.6, 0.4, 0.4, 1.0, 0.0, 0.2] # w1 to w6 (the index are shifted in Godot and go from 0 to 5)
 var max_speed_coeff = 1.5 # Cv in the article
@@ -44,6 +45,11 @@ func _process(delta):
 		speed += acceleration * delta
 		var new_position = position + speed * delta
 		if inside_of_tank(new_position):
+			# if there was a significant move, rotate the fish towards the point
+			# it is going to
+			if (new_position - position).length() > 0.001:
+				var angle = basis.x.signed_angle_to(Vector3(new_position.x - position.x, 0, new_position.z - position.z), basis.y)
+				mesh.rotation.y = angle
 			position = new_position
 		else:
 			# This condition is rarely met, but it still exists

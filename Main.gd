@@ -26,3 +26,10 @@ func _input(event):
 			sin(rangle) * randf_range(0, 1.8),
 		)
 		add_child(fish)
+	if event.is_action_released("switch_camera"):
+		var cam = get_node("Camera3D")
+		var top_cam = get_node("TopCamera")
+		if cam.current:
+			top_cam.current = true
+		else:
+			cam.current = true

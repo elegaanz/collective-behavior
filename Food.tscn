@@ -1,9 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://bqbt202am88dt"]
+[gd_scene load_steps=3 format=3 uid="uid://bqbt202am88dt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3jgyj"]
+albedo_color = Color(6.78644e-06, 0.719208, 0.111989, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_6hv0y"]
+material = SubResource("StandardMaterial3D_3jgyj")
 
 [node name="Food" type="Node3D" groups=["Food"]]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
 mesh = SubResource("SphereMesh_6hv0y")
