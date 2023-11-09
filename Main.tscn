@@ -1,0 +1,59 @@
+[gd_scene load_steps=9 format=3 uid="uid://q7ohce1uya34"]
+
+[ext_resource type="Texture2D" uid="uid://ccx0h2pr51r14" path="res://sky.png" id="1_3swok"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_yc8nc"]
+size = Vector3(10, 0.1, 10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b62mx"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_udtdd"]
+top_radius = 2.0
+bottom_radius = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qluop"]
+transparency = 1
+cull_mode = 2
+depth_draw_mode = 1
+albedo_color = Color(0.505882, 0.776471, 1, 0.568627)
+metallic = 0.15
+metallic_specular = 1.0
+rim_enabled = true
+rim = 0.4
+rim_tint = 0.86
+refraction_enabled = true
+refraction_scale = 0.01
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_s4qyu"]
+panorama = ExtResource("1_3swok")
+
+[sub_resource type="Sky" id="Sky_ficd5"]
+sky_material = SubResource("PanoramaSkyMaterial_s4qyu")
+
+[sub_resource type="Environment" id="Environment_v5v4x"]
+background_mode = 2
+sky = SubResource("Sky_ficd5")
+
+[node name="Node3D" type="Node"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.707107, -0.241845, 0.664463, 0, 0.939692, 0.34202, -0.707107, -0.241845, 0.664463, 3, 2, 3)
+current = true
+fov = 60.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.991109, 0.0411308, -0.126535, 0, 0.951019, 0.309133, 0.133052, -0.306385, 0.942563, 0, 2.03554, 0)
+shadow_enabled = true
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_yc8nc")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_b62mx")
+
+[node name="Tank" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_udtdd")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_qluop")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_v5v4x")
