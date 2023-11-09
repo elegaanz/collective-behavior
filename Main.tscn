@@ -1,6 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://q7ohce1uya34"]
+[gd_scene load_steps=12 format=3 uid="uid://q7ohce1uya34"]
 
 [ext_resource type="Texture2D" uid="uid://ccx0h2pr51r14" path="res://sky.png" id="1_3swok"]
+[ext_resource type="Script" path="res://Main.gd" id="1_utao3"]
+[ext_resource type="PackedScene" uid="uid://dck381fhv4f0j" path="res://Fish.tscn" id="2_7ul0k"]
+[ext_resource type="PackedScene" uid="uid://bqbt202am88dt" path="res://Food.tscn" id="2_rygh3"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_yc8nc"]
 size = Vector3(10, 0.1, 10)
@@ -15,7 +18,7 @@ bottom_radius = 2.0
 transparency = 1
 cull_mode = 2
 depth_draw_mode = 1
-albedo_color = Color(0.505882, 0.776471, 1, 0.568627)
+albedo_color = Color(0, 0.87451, 1, 0.380392)
 metallic = 0.15
 metallic_specular = 1.0
 rim_enabled = true
@@ -35,9 +38,12 @@ background_mode = 2
 sky = SubResource("Sky_ficd5")
 
 [node name="Node3D" type="Node"]
+script = ExtResource("1_utao3")
+food_scene = ExtResource("2_rygh3")
+fish_scene = ExtResource("2_7ul0k")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.707107, -0.241845, 0.664463, 0, 0.939692, 0.34202, -0.707107, -0.241845, 0.664463, 3, 2, 3)
+transform = Transform3D(0.707107, -0.241845, 0.664463, 0, 0.939692, 0.342021, -0.707107, -0.241845, 0.664463, 3, 1, 3)
 current = true
 fov = 60.0
 
@@ -57,3 +63,15 @@ surface_material_override/0 = SubResource("StandardMaterial3D_qluop")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_v5v4x")
+
+[node name="Fish" parent="." instance=ExtResource("2_7ul0k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Fish4" parent="." instance=ExtResource("2_7ul0k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.27447, 0.701579, 0)
+
+[node name="Fish3" parent="." instance=ExtResource("2_7ul0k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.09321, 0.892716, 0)
+
+[node name="Fish2" parent="." instance=ExtResource("2_7ul0k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0129664, 0.5, 1.3937)
