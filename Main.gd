@@ -12,10 +12,18 @@ func _ready():
 func _process(_delta):
 	pass
 
+const TANK_RADIUS = 2
 func _input(event):
 	if event.is_action("spawn_food"):
 		var food = food_scene.instantiate()
-		food.position = Vector3(0, 0.5, 0)
+		var camera = get_node("TopCamera")
+		if camera.current:
+			var mouse_pos = get_viewport().get_mouse_position()
+			food.position = camera.project_position(mouse_pos, camera.position.y - 0.5)
+			if (food.position - Vector3(0, 0.5, 0)).length() > TANK_RADIUS:
+				return
+		else:
+			food.position = Vector3(0, 0.5, 0)
 		add_child(food)
 	if event.is_action("spawn_fish"):
 		var fish = fish_scene.instantiate()
