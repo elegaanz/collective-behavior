@@ -69,12 +69,3 @@ environment = SubResource("Environment_v5v4x")
 
 [node name="Fish" parent="." instance=ExtResource("2_7ul0k")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-
-[node name="Fish4" parent="." instance=ExtResource("2_7ul0k")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.27447, 0.701579, 0)
-
-[node name="Fish3" parent="." instance=ExtResource("2_7ul0k")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.09321, 0.892716, 0)
-
-[node name="Fish2" parent="." instance=ExtResource("2_7ul0k")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0129664, 0.5, 1.3937)
