@@ -25,7 +25,7 @@ var current_iteration = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	mesh = get_node("MeshInstance3D")
+	mesh = get_node("21859_Rainbow_Trout_v1")
 	scale_mesh()
 
 var w = [0.6, 0.4, 0.4, 1.0, 0.0, 0.2] # w1 to w6 (the index are shifted in Godot and go from 0 to 5)
