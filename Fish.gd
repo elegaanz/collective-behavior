@@ -22,6 +22,7 @@ var current_phase = PHASE.FEEDING
 var mesh: MeshInstance3D
 
 var current_iteration = 0
+var fish_data = []  # List to store fish data
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -172,6 +173,8 @@ func _physics_process(_delta):
 	closest_fish = null
 	baricenter = Vector3.ZERO
 	mean_velocity = Vector3.ZERO
+	
+
 
 	for fish in school:
 		if fish == self:
@@ -196,13 +199,15 @@ func _physics_process(_delta):
 	var foods = get_tree().get_nodes_in_group("Food")
 	smallest_distance = INF
 	
-	
 	for food in foods:
 		var distance = (food.position - position).length()
 		#We assumed that an individual can detect the feed regardless of the field of view.
 		if  distance < smallest_distance:
 			smallest_distance = distance
 			closest_food = food
+			
+			
+
 
 # TODO: replace it with a function that takes a point
 # to take into account the dead space at the back of the fish 
@@ -211,8 +216,7 @@ func field_of_view(point): #point: Vector3
 	# Assuming that swimming_force_vector represents the forward direction of the fish
 	var direction_to_point = (point - position).normalized()
 	var angle_to_point = swimming_force_vector.angle_to(direction_to_point)
-	# Assuming a dead zone angle of 30 degrees (you can adjust this value as needed)
-	var dead_zone_angle = 2*deg_to_rad(30)  # Convert degrees to radian
+	var dead_zone_angle = 2*deg_to_rad(30) 
 	# Check if the angle to the point is within the dead zone
 	if angle_to_point < dead_zone_angle:
 		# Point is within the dead zone, consider it outside the field of view
@@ -232,4 +236,7 @@ func scale_mesh():
 	const A = 0.0209
 	const B = 2.483
 	total_length = (body_mass / A)**(1 / B)
-	mesh.scale = 0.02 * total_length**1.2 * Vector3.ONE
+	mesh.scale = 0.01 * total_length**1.2 * Vector3.ONE
+
+	
+
