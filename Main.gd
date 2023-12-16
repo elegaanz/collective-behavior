@@ -42,8 +42,6 @@ func _input(event):
 
 func spawn_food():
 	var foodCount = int(totalFishMass * FOOD_MASS_PERCENTAGE / 0.065)
-	print(totalFishMass)
-	print(foodCount)
 	if foodCount == 0:
 		var food = food_scene.instantiate()
 		food.position = Vector3(randf_range(-FOOD_SPAWN_AREA_SIZE / 2, FOOD_SPAWN_AREA_SIZE / 2), 0.5, randf_range(-FOOD_SPAWN_AREA_SIZE / 2, FOOD_SPAWN_AREA_SIZE / 2))
