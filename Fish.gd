@@ -236,7 +236,7 @@ func scale_mesh():
 	const A = 0.0209
 	const B = 2.483
 	total_length = (body_mass / A)**(1 / B)
-	mesh.scale = 0.01 * total_length**1.2 * Vector3.ONE
+	mesh.scale = 0.01 * total_length * Vector3.ONE
 
 	
 

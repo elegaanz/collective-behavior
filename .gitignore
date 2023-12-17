@@ -5,3 +5,4 @@ examples_dd3d/
 *.aux
 *.log
 *.out
+fish_data.txt
