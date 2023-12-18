@@ -14,6 +14,9 @@ func _ready():
 	
 	popup = get_node("HFlowContainer/SizeMenu").get_popup()
 	popup.connect("id_pressed", _on_size_menu)
+	
+	for _i in range(100):
+		spawn_fish()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -34,16 +37,8 @@ var totalFishMass = 0.0 # total fish mass
 func _input(event):
 	if event.is_action_released("spawn_food"):
 		spawn_food()
-	if event.is_action_released("spawn_fish"):
-		var fish = fish_scene.instantiate()
-		var rangle = randf_range(-PI, PI)
-		fish.position = Vector3(
-			cos(rangle) * randf_range(0, 1.8),
-			randf_range(0, 1),
-			sin(rangle) * randf_range(0, 1.8),
-		)
-		add_child(fish)
-		totalFishMass += fish.body_mass
+	if event.is_action("spawn_fish"):
+		spawn_fish()
 	if event.is_action_released("switch_camera"):
 		var cam = get_node("Camera3D")
 		var top_cam = get_node("TopCamera")
@@ -157,6 +152,18 @@ func save_fish_data_to_csv():
 		file.store_line(line)    
 	file.close()
 	print("Fish data saved successfully.")
+	
+func spawn_fish():
+	var fish = fish_scene.instantiate()
+	var rangle = randf_range(-PI, PI)
+	fish.position = Vector3(
+		cos(rangle) * randf_range(0, 1.8),
+		randf_range(0, 1),
+		sin(rangle) * randf_range(0, 1.8),
+	)
+	add_child(fish)
+	totalFishMass += fish.body_mass
+	
 
 func _on_shape_menu(id):
 	name = "square"
