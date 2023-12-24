@@ -19,6 +19,15 @@ config/icon="res://icon.svg"
 
 run/main_run_args="--rendering-driver opengl3"
 
+[importer_defaults]
+
+wavefront_obj={
+"generate_tangents": true,
+"offset_mesh": Vector3(0, 0, 0),
+"optimize_mesh": true,
+"scale_mesh": Vector3(1, 1, 1)
+}
+
 [input]
 
 spawn_food={
@@ -35,5 +44,10 @@ spawn_fish={
 switch_camera={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":67,"physical_keycode":0,"key_label":0,"unicode":0,"echo":false,"script":null)
+]
+}
+save_fish={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":83,"key_label":0,"unicode":115,"echo":false,"script":null)
 ]
 }
