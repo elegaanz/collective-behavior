@@ -61,82 +61,36 @@ func _input(event):
 
 
 func spawn_food():
-	
+	var gen_pos = func(): Vector3.ZERO
 	match feeding_shape :
-	# for a squared distribution
-		0: 
-			var foodCount = int(totalFishMass * FOOD_MASS_PERCENTAGE / 0.065)
-			if foodCount == 0:
-				var food = food_scene.instantiate()
-				food.position = Vector3(randf_range(-feed_area_size / 2, feed_area_size / 2), 0.5, randf_range(-feed_area_size / 2, feed_area_size / 2))
-				add_child(food)
-				totalFishMass += food.weight
-			else :
-				for _i in range(floor(foodCount)): 
-					var food = food_scene.instantiate()
-					food.position = Vector3(randf_range(-feed_area_size / 2, feed_area_size / 2), 0.5, randf_range(-feed_area_size / 2, feed_area_size / 2))
-					add_child(food)
-					totalFishMass += food.weight
-	
-	# for a line
-		1:
-			var foodCount = int(totalFishMass * FOOD_MASS_PERCENTAGE / 0.065)
-			if foodCount == 0:
-				var food = food_scene.instantiate()
-				food.position = Vector3(randf_range(-feed_area_size / 2, feed_area_size / 2), 0.5, 0.0)
-				add_child(food)
-				totalFishMass += food.weight
-			else :
-				for _i in range(floor(foodCount)): 
-					var food = food_scene.instantiate()
-					food.position = Vector3(randf_range(-feed_area_size / 2, feed_area_size / 2), 0.5, 0.0)
-					add_child(food)
-					totalFishMass += food.weight
-			
-	# for a cross
-		2:
+		0: # for a squared distribution
+			gen_pos = func(): return Vector3(randf_range(-feed_area_size / 2, feed_area_size / 2), 0.5, randf_range(-feed_area_size / 2, feed_area_size / 2))
+		1: # for a line
+			gen_pos = func(): return Vector3(randf_range(-feed_area_size / 2, feed_area_size / 2), 0.5, 0.0)
+		2: # for a cross
 			var foodCount = int(totalFishMass * FOOD_MASS_PERCENTAGE / 0.065)
 			#generate two lines
 			var start_horizontal = Vector3(-feed_area_size / 2, 0.5, 0.0)
 			var end_horizontal = Vector3(feed_area_size / 2, 0.5, 0.0)
-
 			var start_vertical = Vector3(0.0, 0.5, -feed_area_size / 2)
 			var end_vertical = Vector3(0.0, 0.5, feed_area_size / 2)
 			
-			if foodCount == 0:
-				var food = food_scene.instantiate()
+			gen_pos = func():
 				if randf() < 0.5:
-					food.position = Vector3(randf_range(start_horizontal.x, end_horizontal.x), start_horizontal.y, 0.0)
+					return Vector3(randf_range(start_horizontal.x, end_horizontal.x), start_horizontal.y, 0.0)
 				else:
-					food.position = Vector3(0.0, start_vertical.y, randf_range(start_vertical.z, end_vertical.z))
-				add_child(food)
-				totalFishMass += food.weight
-			else :
-				for _i in range(floor(foodCount)): 
-					var food = food_scene.instantiate()
-					if randf() < 0.5:
-						food.position = Vector3(randf_range(start_horizontal.x, end_horizontal.x), start_horizontal.y, 0.0)
-					else:
-						food.position = Vector3(0.0, start_vertical.y, randf_range(start_vertical.z, end_vertical.z))
-					add_child(food)
-					totalFishMass += food.weight
-			
-	# around the tank
-		3:			
-			var foodCount = int(totalFishMass * FOOD_MASS_PERCENTAGE / 0.065)
-			if foodCount == 0:
-				var food = food_scene.instantiate()
+					return Vector3(0.0, start_vertical.y, randf_range(start_vertical.z, end_vertical.z))
+		3: # around the tank
+			gen_pos = func():
 				var angle = randf_range(0, 2 * PI)
-				food.position = Vector3(feed_area_size * cos(angle), 0.5, feed_area_size * sin(angle))
-				add_child(food)
-				totalFishMass += food.weight
-			else :
-				for _i in range(floor(foodCount)): 
-					var food = food_scene.instantiate()
-					var angle = randf_range(0, 2 * PI)
-					food.position = Vector3(feed_area_size * cos(angle), 0.5, feed_area_size * sin(angle))
-					add_child(food)
-					totalFishMass += food.weight
+				return Vector3(feed_area_size * cos(angle), 0.5, feed_area_size * sin(angle))
+	
+	var foodCount = int(ceil(0.001 + totalFishMass * FOOD_MASS_PERCENTAGE / 0.065))
+	for _i in range(floor(foodCount)):
+		var food = food_scene.instantiate()
+		food.position = gen_pos.call()
+		add_child(food)
+		totalFishMass += food.weight
 
 func save_fish_data_to_csv():
 	if fish_data.size() == 0:
