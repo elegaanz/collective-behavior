@@ -7,6 +7,8 @@ var total_length = 0.1
 # S in the article
 var feed_intake_weight = 0.0
 
+var id = 0
+
 var swimming_force_vector = Vector3.RIGHT
 var acceleration = Vector3.RIGHT
 var speed = Vector3.ZERO

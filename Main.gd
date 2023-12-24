@@ -3,7 +3,7 @@ extends Node
 @export var food_scene: PackedScene
 @export var fish_scene: PackedScene
 
-var fish_data = []  # List to store fish data
+var fish_data = {}
 const AUTOSTART = false
 var started = AUTOSTART
 
@@ -26,9 +26,17 @@ func _process(delta):
 	if !started:
 		return
 	timer += delta
+	var percentage = timer / FEEDING_PHASE_DURATION * 100
+	get_node("PanelContainer/HFlowContainer/DayLabel").text = "Day %s (%d%%)" % [day, percentage]
+
 	if timer > FEEDING_PHASE_DURATION:
+		var school = get_tree().get_nodes_in_group("School")
+		for fish in school:
+			if not fish_data.has(fish.id):
+				fish_data[fish.id] = []
+			fish_data[fish.id].append(fish.total_length)
+		
 		day += 1
-		get_node("PanelContainer/HFlowContainer/DayLabel").text = "Day " + str(day)
 		timer -= FEEDING_PHASE_DURATION
 		spawn_food()
 
@@ -57,17 +65,7 @@ func _input(event):
 		else:
 			cam.current = true
 	if event.is_action_released("save_fish"):
-		var school = get_tree().get_nodes_in_group("School")
-		var last_assigned_id = 0
-		for fish in school:
-			last_assigned_id += 1
-			var fish_info = {
-				"ID": last_assigned_id,
-				"Final_Size": fish.total_length  # Store the final size
-			}
-			fish_data.append(fish_info)
 		save_fish_data_to_csv()
-		print("Fish data saved.")
 
 
 func spawn_food():
@@ -102,20 +100,16 @@ func spawn_food():
 		totalFishMass += food.weight
 
 func save_fish_data_to_csv():
-	if fish_data.size() == 0:
-		print("No fish data to save.")
-		return
-		
-	var file = FileAccess.open("res://fish_data.txt",FileAccess.WRITE)
-	file.store_line("Fish_Index,Final_Size")
-
-	# Write data for each fish
-	for fish_info in fish_data:
-		var line = str((str(fish_info["ID"]) + "," + str(fish_info["Final_Size"])))
-		file.store_line(line)    
-	file.close()
-	print("Fish data saved successfully.")
+	var file = FileAccess.open("res://fish_data.txt", FileAccess.WRITE)
+	var days = range(1, day).map(func(x): return "size_at_end_of_day_" + str(x))
+	file.store_line("fish_id," + ",".join(days))
 	
+	for fish in fish_data:
+		var line = str(fish) + "," + ",".join(range(1, day).map(func(x): return str(fish_data[fish][x - 1])))
+		file.store_line(line)
+	file.close()
+
+var next_id = 0
 func spawn_fish():
 	var fish = fish_scene.instantiate()
 	var rangle = randf_range(-PI, PI)
@@ -124,6 +118,8 @@ func spawn_fish():
 		randf_range(0, 1),
 		sin(rangle) * randf_range(0, 1.8),
 	)
+	fish.id = next_id
+	next_id += 1
 	add_child(fish)
 	totalFishMass += fish.body_mass
 	
@@ -158,6 +154,7 @@ func _on_save_button_pressed():
 	Input.parse_input_event(evt)
 
 func _on_start_button_pressed():
+	started = true
 	get_node("PanelContainer/HFlowContainer/StartButton").disabled = true
 	for _i in range(100):
 		spawn_fish()
