@@ -70,11 +70,20 @@ environment = SubResource("Environment_v5v4x")
 [node name="Fish" parent="." instance=ExtResource("2_7ul0k")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="HFlowContainer" type="VBoxContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="."]
+offset_top = -2.0
 offset_right = 222.0
-offset_bottom = 452.0
+offset_bottom = 257.0
 
-[node name="ShapeMenu" type="MenuButton" parent="HFlowContainer"]
+[node name="HFlowContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="DayLabel" type="Label" parent="PanelContainer/HFlowContainer"]
+layout_mode = 2
+text = "Day 1"
+horizontal_alignment = 1
+
+[node name="ShapeMenu" type="MenuButton" parent="PanelContainer/HFlowContainer"]
 layout_mode = 2
 text = "Feeding shape : square"
 flat = false
@@ -88,7 +97,7 @@ popup/item_2/id = 2
 popup/item_3/text = "Circle"
 popup/item_3/id = 3
 
-[node name="SizeMenu" type="MenuButton" parent="HFlowContainer"]
+[node name="SizeMenu" type="MenuButton" parent="PanelContainer/HFlowContainer"]
 layout_mode = 2
 text = "Feeding area size: 1.0"
 flat = false
@@ -100,24 +109,24 @@ popup/item_1/id = 1
 popup/item_2/text = "2.0"
 popup/item_2/id = 2
 
-[node name="SpawnButton" type="Button" parent="HFlowContainer"]
+[node name="SpawnButton" type="Button" parent="PanelContainer/HFlowContainer"]
 layout_mode = 2
-text = "Spawn food (A)"
+text = "Spawn food now (A)"
 
-[node name="ReferenceRect" type="ReferenceRect" parent="HFlowContainer"]
+[node name="ReferenceRect" type="ReferenceRect" parent="PanelContainer/HFlowContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 border_width = 0.0
 editor_only = false
 
-[node name="CameraButton" type="Button" parent="HFlowContainer"]
+[node name="CameraButton" type="Button" parent="PanelContainer/HFlowContainer"]
 layout_mode = 2
 text = "Switch view (C)"
 
-[node name="SaveButton" type="Button" parent="HFlowContainer"]
+[node name="SaveButton" type="Button" parent="PanelContainer/HFlowContainer"]
 layout_mode = 2
 text = "Save data (S)"
 
-[connection signal="pressed" from="HFlowContainer/SpawnButton" to="." method="_on_spawn_button_pressed"]
-[connection signal="pressed" from="HFlowContainer/CameraButton" to="." method="_on_camera_button_pressed"]
-[connection signal="pressed" from="HFlowContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="PanelContainer/HFlowContainer/SpawnButton" to="." method="_on_spawn_button_pressed"]
+[connection signal="pressed" from="PanelContainer/HFlowContainer/CameraButton" to="." method="_on_camera_button_pressed"]
+[connection signal="pressed" from="PanelContainer/HFlowContainer/SaveButton" to="." method="_on_save_button_pressed"]

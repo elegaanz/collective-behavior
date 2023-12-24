@@ -37,7 +37,8 @@ func _process(delta):
 	if current_phase == PHASE.FEEDING:
 		# this algorithm is based on figure 2
 		var max_feed_intake = 0.04 * body_mass
-		if feed_in_tank() && feed_intake_weight < max_feed_intake:
+		var can_still_eat = feed_intake_weight < max_feed_intake
+		if feed_in_tank() && can_still_eat:
 			w[4] = 3.0
 			max_speed_coeff = 7.0
 		else:
@@ -69,7 +70,7 @@ func _process(delta):
 			speed /= 2
 
 		var food_in_contact: Node = get_food_in_contact()
-		if food_in_contact != null:
+		if food_in_contact != null && can_still_eat:
 			# We don't have a counter for how many food pellets were eaten
 			# (aka N_f^i), we just sum the weights as they come
 			feed_intake_weight += food_in_contact.weight
@@ -161,7 +162,7 @@ func get_food_in_contact():
 	var all_food = get_tree().get_nodes_in_group("Food")
 	for food in all_food:
 		var distance = (food.position - position).length()
-		if distance < speed.length() / 8:
+		if distance < mesh.scale.length() * 2:
 			return food
 	return null
 

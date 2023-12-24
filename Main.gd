@@ -9,18 +9,26 @@ var fish_data = []  # List to store fish data
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var popup: PopupMenu = get_node("HFlowContainer/ShapeMenu").get_popup()
+	var popup: PopupMenu = get_node("PanelContainer/HFlowContainer/ShapeMenu").get_popup()
 	popup.connect("id_pressed", _on_shape_menu)
 	
-	popup = get_node("HFlowContainer/SizeMenu").get_popup()
+	popup = get_node("PanelContainer/HFlowContainer/SizeMenu").get_popup()
 	popup.connect("id_pressed", _on_size_menu)
 	
 	for _i in range(100):
 		spawn_fish()
 
+const FEEDING_PHASE_DURATION = 10.0
+var timer = 0.0
+var day = 1
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
+func _process(delta):
+	timer += delta
+	if timer > FEEDING_PHASE_DURATION:
+		day += 1
+		get_node("PanelContainer/HFlowContainer/DayLabel").text = "Day " + str(day)
+		timer -= FEEDING_PHASE_DURATION
+		spawn_food()
 
 const TANK_RADIUS = 2
 
@@ -54,7 +62,7 @@ func _input(event):
 			var fish_info = {
 				"ID": last_assigned_id,
 				"Final_Size": fish.total_length  # Store the final size
-				}
+			}
 			fish_data.append(fish_info)
 		save_fish_data_to_csv()
 		print("Fish data saved.")
@@ -68,7 +76,6 @@ func spawn_food():
 		1: # for a line
 			gen_pos = func(): return Vector3(randf_range(-feed_area_size / 2, feed_area_size / 2), 0.5, 0.0)
 		2: # for a cross
-			var foodCount = int(totalFishMass * FOOD_MASS_PERCENTAGE / 0.065)
 			#generate two lines
 			var start_horizontal = Vector3(-feed_area_size / 2, 0.5, 0.0)
 			var end_horizontal = Vector3(feed_area_size / 2, 0.5, 0.0)
@@ -128,12 +135,12 @@ func _on_shape_menu(id):
 	elif id == 3:
 		name = "circle"
 	
-	get_node("HFlowContainer/ShapeMenu").text = "Feeding shape: " + name
+	get_node("PanelContainer/HFlowContainer/ShapeMenu").text = "Feeding shape: " + name
 	feeding_shape = id
 
 func _on_size_menu(id):
 	feed_area_size = 1.0 + (0.5 * id)	
-	get_node("HFlowContainer/SizeMenu").text = "Feeding area size: " + str(feed_area_size)
+	get_node("PanelContainer/HFlowContainer/SizeMenu").text = "Feeding area size: " + str(feed_area_size)
 
 func _on_spawn_button_pressed():
 	spawn_food()
