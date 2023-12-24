@@ -32,7 +32,7 @@ func _ready():
 	scale_mesh()
 
 var w = [0.6, 0.4, 0.4, 1.0, 0.0, 0.2] # w1 to w6 (the index are shifted in Godot and go from 0 to 5)
-var max_speed_coeff = 1.5 # Cv in the article
+var max_speed_coeff = 0.0 # Cv in the article
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -42,10 +42,10 @@ func _process(delta):
 		var can_still_eat = feed_intake_weight < max_feed_intake
 		if feed_in_tank() && can_still_eat:
 			w[4] = 3.0
-			max_speed_coeff = 7.0
+			max_speed_coeff = 2.0
 		else:
 			w[4] = 0.0
-			max_speed_coeff = 1.5
+			max_speed_coeff = 0.3
 		# update swimming force vector
 		swimming_force_vector = compute_swimming_force()
 		# compute acceleration, speed and position
