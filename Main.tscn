@@ -110,4 +110,9 @@ layout_mode = 2
 border_width = 0.0
 editor_only = false
 
+[node name="CameraButton" type="Button" parent="HFlowContainer"]
+layout_mode = 2
+text = "Switch view (C)"
+
 [connection signal="pressed" from="HFlowContainer/SpawnButton" to="." method="_on_spawn_button_pressed"]
+[connection signal="pressed" from="HFlowContainer/CameraButton" to="." method="_on_camera_button_pressed"]
