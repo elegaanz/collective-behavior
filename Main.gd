@@ -142,3 +142,8 @@ func _on_camera_button_pressed():
 	var evt = InputEventAction.new()
 	evt.action = "switch_camera"
 	Input.parse_input_event(evt)
+
+func _on_save_button_pressed():
+	var evt = InputEventAction.new()
+	evt.action = "save_fish"
+	Input.parse_input_event(evt)
