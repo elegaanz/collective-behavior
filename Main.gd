@@ -3,9 +3,9 @@ extends Node
 @export var food_scene: PackedScene
 @export var fish_scene: PackedScene
 
-const SAVE_KEY = KEY_S
-
 var fish_data = []  # List to store fish data
+const AUTOSTART = false
+var started = AUTOSTART
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -15,14 +15,16 @@ func _ready():
 	popup = get_node("PanelContainer/HFlowContainer/SizeMenu").get_popup()
 	popup.connect("id_pressed", _on_size_menu)
 	
-	for _i in range(100):
-		spawn_fish()
+	if AUTOSTART:
+		_on_start_button_pressed()
 
 const FEEDING_PHASE_DURATION = 10.0
 var timer = 0.0
 var day = 1
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if !started:
+		return
 	timer += delta
 	if timer > FEEDING_PHASE_DURATION:
 		day += 1
@@ -154,3 +156,8 @@ func _on_save_button_pressed():
 	var evt = InputEventAction.new()
 	evt.action = "save_fish"
 	Input.parse_input_event(evt)
+
+func _on_start_button_pressed():
+	get_node("PanelContainer/HFlowContainer/StartButton").disabled = true
+	for _i in range(100):
+		spawn_fish()

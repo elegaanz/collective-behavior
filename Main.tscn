@@ -67,9 +67,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_qluop")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_v5v4x")
 
-[node name="Fish" parent="." instance=ExtResource("2_7ul0k")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-
 [node name="PanelContainer" type="PanelContainer" parent="."]
 offset_top = -2.0
 offset_right = 222.0
@@ -82,6 +79,12 @@ layout_mode = 2
 layout_mode = 2
 text = "Day 1"
 horizontal_alignment = 1
+
+[node name="ReferenceRect2" type="ReferenceRect" parent="PanelContainer/HFlowContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+border_width = 0.0
+editor_only = false
 
 [node name="ShapeMenu" type="MenuButton" parent="PanelContainer/HFlowContainer"]
 layout_mode = 2
@@ -127,6 +130,11 @@ text = "Switch view (C)"
 layout_mode = 2
 text = "Save data (S)"
 
+[node name="StartButton" type="Button" parent="PanelContainer/HFlowContainer"]
+layout_mode = 2
+text = "Start simulation"
+
 [connection signal="pressed" from="PanelContainer/HFlowContainer/SpawnButton" to="." method="_on_spawn_button_pressed"]
 [connection signal="pressed" from="PanelContainer/HFlowContainer/CameraButton" to="." method="_on_camera_button_pressed"]
 [connection signal="pressed" from="PanelContainer/HFlowContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="PanelContainer/HFlowContainer/StartButton" to="." method="_on_start_button_pressed"]
