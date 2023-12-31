@@ -35,10 +35,11 @@ func _process(delta):
 			if not fish_data.has(fish.id):
 				fish_data[fish.id] = []
 			fish_data[fish.id].append(fish.total_length)
-		
 		day += 1
 		timer -= FEEDING_PHASE_DURATION
 		spawn_food()
+	if day == 91:
+		started = false
 
 const TANK_RADIUS = 2
 
