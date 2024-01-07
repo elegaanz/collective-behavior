@@ -15,6 +15,8 @@ In this project, our goal is to replicate the behavior of a group of fish in a c
 
 The central objective of our project is to address a fundamental question:  **how do various feeding techniques influence the population of a school of fish in a tank, and which technique is most suitable for aquaculture purposes?** To answer this question, we have outlined a series of planned steps.
 
+We were able to reproduce the original simulation and introduce new ways of feeding fishes, producing data that we analyzed to compare all the different approaches.
+
 ## Planned steps
 
 - Read the paper we choose, and review related literature to build a strong foundation on the subject
@@ -26,6 +28,10 @@ The central objective of our project is to address a fundamental question:  **ho
 - Integrate a mechanism to monitor the evolution of fish population within the tank, including metrics like their total mass (and maybe other metrics like their total mass)
 - Generate and analyze results from different scenarios to facilitate a comprehensive discussion.
 - Conclude the project and compile the final project report by the deadline of 08/01.
+
+## How to run?
+
+Install [Godot](https://godotengine.org/) and open the project.
 
 ## Bibliography
 
